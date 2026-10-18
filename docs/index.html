@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JoAcademy Tool — متابعة الحضور</title>
+<meta name="description" content="إضافة كروم خفيفة تتابع حضورك على جو أكاديمي — تحديد الحصص، نسبة الحضور، ومزامنة تلقائية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #4f46e5;
+    --accent-dark: #4338ca;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Cairo", "Segoe UI", Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  svg { display: block; }
+
+  /* Header */
+  header { text-align: center; padding: 72px 0 20px; }
+  .logo {
+    width: 88px; height: 88px; border-radius: 22px;
+    box-shadow: 0 16px 40px rgba(79,70,229,.28);
+  }
+  h1 { font-size: 2.3rem; font-weight: 800; margin-top: 20px; letter-spacing: -.5px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .tagline { color: var(--muted); max-width: 540px; margin: 10px auto 0; font-size: 1.05rem; }
+  .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+  .badge {
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    padding: 5px 14px; border-radius: 999px; font-size: .82rem; font-weight: 600;
+  }
+
+  /* CTA */
+  .cta { text-align: center; padding: 36px 0 8px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #fff; text-decoration: none;
+    font-size: 1.08rem; font-weight: 700; font-family: inherit;
+    padding: 15px 44px; border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(79,70,229,.32);
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 14px 32px rgba(79,70,229,.4); }
+  .btn svg { width: 20px; height: 20px; }
+  .meta { color: var(--muted); font-size: .85rem; margin-top: 12px; }
+
+  /* Sections */
+  section { margin: 64px 0; }
+  .sec-title { text-align: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+  .sec-sub { text-align: center; color: var(--muted); font-size: .95rem; margin-bottom: 30px; }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px; transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .card:hover { box-shadow: 0 10px 30px rgba(15,23,42,.07); transform: translateY(-2px); }
+  .card .ico {
+    width: 42px; height: 42px; border-radius: 11px;
+    background: #eef2ff; color: var(--accent);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+  }
+  .card .ico svg { width: 22px; height: 22px; }
+  .card h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: .9rem; }
+
+  /* Steps */
+  .step {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 18px 22px; margin-bottom: 12px; display: flex; gap: 16px; align-items: center;
+  }
+  .step .n {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700; font-size: 1.05rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step p { color: #334155; font-size: .95rem; }
+  .step code {
+    background: #eef2ff; color: var(--accent-dark); padding: 2px 10px;
+    border-radius: 6px; direction: ltr; display: inline-block;
+    font-family: Consolas, monospace; font-size: .85rem;
+  }
+
+  /* Video */
+  .video-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: var(--muted); text-align: center; padding: 36px;
+  }
+  .video-box .play {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #eef2ff; color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .video-box .play svg { width: 28px; height: 28px; }
+  .video-box b { color: var(--text); font-size: 1.05rem; }
+
+  /* Notice */
+  .notice {
+    background: #eef2ff; border: 1px solid #c7d2fe; border-radius: var(--radius);
+    padding: 18px 24px; color: var(--accent-dark); font-size: .92rem; text-align: center;
+  }
+
+  footer { text-align: center; padding: 20px 0 56px; color: var(--muted); font-size: .88rem; }
+  footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="container">
+  <img src="icon128.png" alt="JoAcademy Tool" class="logo" style="margin:0 auto">
+  <h1>JoAcademy <em>Tool</em></h1>
+  <p class="tagline">إضافة خفيفة لمتصفح كروم تتابع حضورك على منصة جو أكاديمي — حدّد الحصص اللي حضرتها، وشوف نسبتك لحظة بلحظة، والمزامنة بتنعمل لحالها.</p>
+  <div class="badges">
+    <span class="badge">بياناتك محفوظة عندك فقط</span>
+    <span class="badge">بدون سيرفر</span>
+    <span class="badge">مزامنة تلقائية</span>
+    <span class="badge">التحديدات ما بتروح</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="cta">
+    <a class="btn" id="dl" href="JoAcademy-Tool.zip" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
+      تحميل الأداة مجاناً
+    </a>
+    <p class="meta" id="ver">ملف ZIP واحد — التركيب مرة وحدة فقط</p>
+  </div>
+
+  <section>
+    <h2 class="sec-title">شو بتعمل الأداة</h2>
+    <p class="sec-sub">كل اللي تحتاجه لتابع حضورك بدون تعقيد</p>
+    <div class="features">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg></div>
+        <h3>تحديد الحصص</h3>
+        <p>اضغط علامة على أي درس حضرته، والنسبة بتتحدث لحالها فوق اللوحة.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/></svg></div>
+        <h3>مزامنة تلقائية</h3>
+        <p>أول ما تفتح أي دورة، الأداة بتفتح وحداتها وبتعرض حصصها مباشرة بدون أي ضغط.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>التحديدات ما بتروح</h3>
+        <p>لو فتحت الدورة ولقيت التحديد رايح، اعمل ريفريش وبيرجع كلشي من مكانه.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>التالي غير محفوظ</h3>
+        <p>زر ينقلك مباشرة لأول درس ما حددته — ما في وقت يضيع تدوّر فيه.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-6"/><path d="M12 20V6"/><path d="M19 20v-10"/><path d="M3 20h18"/></svg></div>
+        <h3>شريط الحضور</h3>
+        <p>الشريط اللي بموقع جو أكاديمي بينعبّئ بنسبة حضورك الفعلية.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>بدون أي بيانات</h3>
+        <p>الأداة ما بتبعث أي شيء لأي طرف — كل شي محفوظ على جهازك أنت.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">طريقة التركيب</h2>
+    <p class="sec-sub">أربع خطوات بسيطة، مرة وحدة فقط</p>
+    <div class="step"><span class="n">1</span><p>حمّل ملف <b>ZIP</b> من زر التحميل فوق، واضغط عليه مرتين وبعدين "استخراج كل".</p></div>
+    <div class="step"><span class="n">2</span><p>افتح كروم، وانسخ هذا الرابط والصقه في شريط العنوان: <code>chrome://extensions</code></p></div>
+    <div class="step"><span class="n">3</span><p>فعّل زر <b>"وضع المطوّر"</b> أعلى اليمين — مرة وحدة بس وما بيتغير.</p></div>
+    <div class="step"><span class="n">4</span><p>اضغط <b>"تحميل غير مُحزَّمة"</b> واختر المجلد اللي فككت ضغطه. خلاص، افتح كورسك وشغّلها.</p></div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">شرح بالفيديو</h2>
+    <p class="sec-sub">طريقة التنزيل والتركيب خطوة بخطوة</p>
+    <a id="videoLink" style="text-decoration:none">
+      <div class="video-box">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
+        <b>فيديو شرح التنزيل والتركيب</b>
+        <span>قيد التجهيز — تابع الحساب للتحديث</span>
+      </div>
+    </a>
+  </section>
+
+  <section>
+    <div class="notice">
+      الأداة للقراءة والتتبع فقط — سجّل حضورك عن طريق مشاهدة دروسك، والأداة بس تساعدك تتابع نسبتك بدقة.
+    </div>
+  </section>
+
+  <footer>
+    أداة تعليمية — متابعة الحضور على جو أكاديمي<br>
+    <span id="tt" hidden></span>
+  </footer>
+
+</div>
+
+<script src="config.js"></script>
+<script>
+  (function () {
+    var c = window.JOACADEMY_CONFIG || {};
+    var a = document.getElementById("dl");
+    var v = document.getElementById("ver");
+
+    // رابط التحميل
+    if (c.downloadUrl) {
+      a.href = c.downloadUrl;
+      a.removeAttribute("download");
+    }
+    if (c.version) {
+      v.textContent = "الإصدار " + c.version + (c.updated ? " — آخر تحديث: " + c.updated : "");
+    }
+
+    // فيديو اليوتيوب — يتحول تلقائياً لفيديو مضمّن
+    var link = document.getElementById("videoLink");
+    var yt = "";
+    if (c.videoUrl) {
+      var m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{6,})/.exec(c.videoUrl);
+      yt = m ? "https://www.youtube.com/embed/" + m[1] : "";
+    }
+    if (yt) {
+      var box = document.querySelector(".video-box");
+      var wrap = document.createElement("div");
+      wrap.style.cssText = "position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#000";
+      var ifr = document.createElement("iframe");
+      ifr.src = yt;
+      ifr.allowFullscreen = true;
+      ifr.style.cssText = "position:absolute;inset:0;width:100%;height:100%;border:0";
+      wrap.appendChild(ifr);
+      box.parentNode.replaceChild(wrap, box);
+    } else if (c.videoUrl) {
+      link.href = c.videoUrl;
+      link.target = "_blank";
+      link.rel = "noopener";
+    } else {
+      link.removeAttribute("href");
+      link.style.cursor = "default";
+    }
+
+    // حساب تيك توك
+    if (c.tiktok) {
+      var user = c.tiktok.replace(/^@/, "");
+      var tt = document.getElementById("tt");
+      tt.hidden = false;
+      tt.innerHTML = 'للاستفسار: <a href="https://www.tiktok.com/@' + user +
+        '" target="_blank" rel="noopener">تيك توك — @' + user + "</a>";
+    }
+  })();
+</script>
+
+</body>
+</html>

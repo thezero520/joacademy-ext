@@ -1,0 +1,7 @@
+# هذا المستودع لموقع GitHub Pages فقط (مجلد docs)
+# الكود المصدري للأداة لا يُرفع هنا أبداً
+*
+!.gitignore
+!README.md
+!docs/
+!docs/**
