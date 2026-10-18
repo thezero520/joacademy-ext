@@ -75,9 +75,34 @@
   footer { text-align: center; color: var(--muted); font-size: .82rem; margin-top: 26px; }
   footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
   @media (max-width: 540px) { .row { grid-template-columns: 1fr; } }
+
+  /* بوابة كلمة السر */
+  #gate { position: fixed; inset: 0; background: linear-gradient(160deg, #0f172a, #1e293b); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  #gate.hidden { display: none; }
+  .gate-box { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 36px 30px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+  .gate-logo { width: 56px; height: 56px; border-radius: 14px; }
+  .gate-box h2 { font-size: 1.15rem; font-weight: 800; margin-top: 14px; }
+  .gate-box p { color: var(--muted); font-size: .87rem; margin: 6px 0 16px; }
+  .gate-box input { text-align: center; letter-spacing: 2px; font-weight: 700; }
+  .gate-box .btn { width: 100%; margin-top: 14px; }
+  #gateErr { display: none; margin-top: 12px; padding: 10px 14px; border-radius: 8px; font-size: .85rem; background: var(--err-bg); border: 1px solid var(--err-b); color: var(--err); }
+  .shake { animation: gshake .3s ease; }
+  @keyframes gshake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 </style>
 </head>
 <body>
+
+<div id="gate">
+  <div class="gate-box">
+    <img src="icon128.png" alt="" class="gate-logo" style="margin:0 auto">
+    <h2>لوحة التحكم محمية</h2>
+    <p>أدخل كلمة السر للمتابعة</p>
+    <input id="gatePass" type="password" dir="ltr" placeholder="••••••••" autocomplete="off">
+    <button class="btn" id="gateBtn" type="button">دخول</button>
+    <div id="gateErr">كلمة السر غير صحيحة — حاول مرة ثانية.</div>
+  </div>
+</div>
+
 <div class="container">
 
   <header>
@@ -284,6 +309,37 @@
         status($("st1"), e.message, false);
       });
   };
+</script>
+
+<script>
+  (function () {
+    var GATE_HASH = "38f53f269c197313deeac650ecc838162dedc3a1a04741a1c760a8dbba18de41";
+    var gate = document.getElementById("gate");
+    var pass = document.getElementById("gatePass");
+    var btn = document.getElementById("gateBtn");
+    var err = document.getElementById("gateErr");
+    if (sessionStorage.getItem("joext_gate") === GATE_HASH) { gate.classList.add("hidden"); return; }
+    function unlock() {
+      if (!window.crypto || !crypto.subtle) { err.style.display = "block"; return; }
+      crypto.subtle.digest("SHA-256", new TextEncoder().encode(pass.value)).then(function (buf) {
+        var hex = Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("00" + b.toString(16)).slice(-2); }).join("");
+        if (hex === GATE_HASH) {
+          sessionStorage.setItem("joext_gate", GATE_HASH);
+          gate.classList.add("hidden");
+        } else {
+          err.style.display = "block";
+          pass.value = "";
+          pass.focus();
+          var box = gate.querySelector(".gate-box");
+          box.classList.remove("shake");
+          void box.offsetWidth;
+          box.classList.add("shake");
+        }
+      });
+    }
+    btn.addEventListener("click", unlock);
+    pass.addEventListener("keydown", function (e) { if (e.key === "Enter") unlock(); });
+  })();
 </script>
 
 </body>
