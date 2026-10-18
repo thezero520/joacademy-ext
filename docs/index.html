@@ -382,7 +382,7 @@
     var link = document.getElementById("videoLink");
     var yt = "";
     if (c.videoUrl) {
-      var m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{6,})/.exec(c.videoUrl);
+      var m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{6,})/.exec(c.videoUrl);
       yt = m ? "https://www.youtube.com/embed/" + m[1] : "";
     }
     if (yt) {
