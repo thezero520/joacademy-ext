@@ -212,7 +212,7 @@
 <section class="hero container">
   <div class="hero-text">
     <p class="kicker"><span class="dot"></span> أداة كروم مجانية للطلاب</p>
-    <h1>متضيعش نسبة حضورك <em>تاني</em></h1>
+    <h1>ما تضيّع نسبة حضورك <em>تاني</em></h1>
     <p class="tagline">إضافة خفيفة لمتصفح كروم تتابع حضورك على منصة جو أكاديمي — حدّد الحصص اللي حضرتها، وشوف نسبتك لحظة بلحظة، والمزامنة بتنعمل لحالها.</p>
     <div class="badges">
       <span class="badge">بياناتك محفوظة عندك فقط</span>
@@ -362,9 +362,9 @@
 
 </main>
 
-<script src="config.js"></script>
 <script>
   (function () {
+    function boot() {
     var c = window.JOACADEMY_CONFIG || {};
     var a = document.getElementById("dl");
     var v = document.getElementById("ver");
@@ -446,6 +446,14 @@
       }
       a.addEventListener("click", function () { bump(3); });
     }
+    }
+
+    // تحميل الإعدادات مع فك الكاش دائماً (حتى لا يبقى الرابط أو اليوزر القديم مخزّناً بالمتصفح)
+    var cfgScript = document.createElement("script");
+    cfgScript.src = "config.js?t=" + Date.now();
+    cfgScript.onload = boot;
+    cfgScript.onerror = boot;
+    document.head.appendChild(cfgScript);
   })();
 </script>
 <script>
