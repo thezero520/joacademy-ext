@@ -388,7 +388,8 @@
     var yt = "";
     if (c.videoUrl) {
       var m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{6,})/.exec(c.videoUrl);
-      yt = m ? "https://www.youtube.com/embed/" + m[1] : "";
+      var ts = /[?&](?:t|start)=(\d+)/.exec(c.videoUrl);
+      yt = m ? "https://www.youtube.com/embed/" + m[1] + (ts ? "?start=" + ts[1] : "") : "";
     }
     if (yt) {
       var box = document.querySelector(".video-box");
