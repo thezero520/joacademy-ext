@@ -58,15 +58,18 @@
   .nav-cta:hover { background: var(--signal-hi); transform: translateY(-1px); }
 
   /* ————— Hero ————— */
-  .hero { display: grid; grid-template-columns: 1.08fr .92fr; gap: 52px; align-items: center; padding: 72px 0 24px; }
+  .hero { display: grid; grid-template-columns: 1.08fr .92fr; gap: 52px; align-items: center; padding: 72px 0 32px; }
+  section.container { margin-block: 56px; }
+  .hero.container { margin-block: 0; }
+  .hero-text { text-align: center; }
   .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 700; color: var(--signal); border: 1px solid rgba(52,211,153,.32); background: rgba(52,211,153,.07); padding: 5px 14px; border-radius: 999px; margin-bottom: 20px; }
   .kicker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); animation: blink 2s ease infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
-  h1 { font-size: clamp(1.9rem, 4.4vw, 2.9rem); font-weight: 900; line-height: 1.38; margin-bottom: 14px; }
+  h1 { font-size: clamp(1.75rem, 3.6vw, 2.5rem); font-weight: 900; line-height: 1.4; margin-bottom: 14px; text-wrap: balance; }
   h1 em { font-style: normal; color: var(--signal); }
-  .tagline { color: var(--muted); max-width: 560px; font-size: 1.02rem; }
-  .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-  .badge { border: 1px solid var(--line); color: var(--muted); background: var(--surface-2); padding: 5px 14px; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+  .tagline { color: var(--muted); max-width: 500px; font-size: 1rem; margin-inline: auto; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 20px; max-width: 540px; margin-inline: auto; }
+  .badge { border: 1px solid var(--line); color: var(--muted); background: var(--surface-2); padding: 5px 12px; border-radius: 999px; font-size: .78rem; font-weight: 600; }
 
   /* ————— زر التحميل ————— */
   .cta { margin-top: 30px; }
@@ -81,7 +84,7 @@
   .btn:hover { background: var(--signal-hi); transform: translateY(-2px); box-shadow: 0 16px 38px rgba(52,211,153,.3); }
   .btn:active { transform: translateY(0); }
   .btn svg { width: 20px; height: 20px; }
-  .cta-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+  .cta-meta { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
   .meta { color: var(--muted); font-size: .84rem; }
   .count-pill {
     display: inline-flex; gap: 6px; align-items: center;
@@ -209,7 +212,7 @@
 
 <main id="main">
 
-<section class="hero container" style="margin:0">
+<section class="hero container">
   <div class="hero-text">
     <p class="kicker"><span class="dot"></span> أداة كروم مجانية للطلاب</p>
     <h1>ما تضيّع نسبة حضورك <em>تاني</em></h1>
