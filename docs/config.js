@@ -1,7 +1,5 @@
-// إعدادات موقع JoAcademy Tool
-// لا تعدل هذا الملف يدوياً — عدّله من صفحة admin.html
 window.JOACADEMY_CONFIG = {
-  "downloadUrl": "",
+  "downloadUrl": "https://thezero520.github.io/joacademy-ext/JoAcademy-Tool.zip",
   "videoUrl": "",
   "tiktok": "",
   "version": "2.6",
