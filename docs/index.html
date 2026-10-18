@@ -129,6 +129,8 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 12px; color: var(--muted); text-align: center; padding: 30px;
   }
+  .guide-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: .88rem; font-weight: 700; color: var(--signal); text-decoration: none; border: 1px solid rgba(52,211,153,.32); background: rgba(52,211,153,.06); padding: 8px 20px; border-radius: 999px; transition: background .15s ease, transform .15s ease; }
+  .guide-link:hover { background: rgba(52,211,153,.13); transform: translateY(-1px); }
   .video-box .play { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line-strong); background: rgba(52,211,153,.1); color: var(--signal); display: flex; align-items: center; justify-content: center; transition: transform .2s ease, background .2s ease; }
   #videoLink:hover .play { transform: scale(1.06); background: rgba(52,211,153,.18); }
   .video-box .play svg { width: 28px; height: 28px; }
@@ -276,6 +278,9 @@
   <p class="k">دليل التركيب</p>
   <h2 class="sec-title">شرح بالفيديو</h2>
   <p class="sec-sub">طريقة التنزيل والتركيب خطوة بخطوة</p>
+  <div style="text-align:center">
+    <a class="guide-link" href="guide.html">أو تصفّح الدليل المصوّر بالصور (13 خطوة) ←</a>
+  </div>
   <div class="video-shell">
     <a id="videoLink">
       <div class="video-box">
