@@ -64,6 +64,9 @@
   .status.ok { display: block; background: var(--ok-bg); border: 1px solid var(--ok-b); color: var(--ok); }
   .status.err { display: block; background: var(--err-bg); border: 1px solid var(--err-b); color: var(--err); }
 
+  .check-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: .9rem; color: #334155; cursor: pointer; font-weight: 700; }
+  .check-row input { width: auto; transform: scale(1.35); accent-color: var(--accent); cursor: pointer; }
+
   .current { background: #fafbfc; border: 1px dashed var(--border); border-radius: 10px; padding: 12px 16px; font-size: .87rem; color: var(--muted); word-break: break-all; margin-top: 10px; }
   .current b { color: var(--text); }
 
@@ -127,6 +130,11 @@
 
     <label for="tt">يوزر تيك توك <span>(يظهر بأسفل الموقع)</span></label>
     <input id="tt" dir="ltr" type="text" placeholder="@yourname">
+
+    <label for="cnt">رابط عدّاد التحميلات <span>(Firebase Realtime Database — اختياري)</span></label>
+    <input id="cnt" dir="ltr" type="url" placeholder="https://xxxx-default-rtdb.firebaseio.com">
+
+    <label class="check-row"><input id="showDl" type="checkbox" checked> إظهار عداد التحميلات بالموقع</label>
 
     <div class="row">
       <div>
@@ -241,6 +249,8 @@
     if (c.updated) $("upd").value = c.updated;
     if (c.videoUrl) $("yt").value = c.videoUrl;
     if (c.tiktok) $("tt").value = c.tiktok;
+    if (c.counterUrl) $("cnt").value = c.counterUrl;
+    $("showDl").checked = c.showDownloads !== false;
     $("test").onclick = function () { window.open(c.downloadUrl || $("url").value || "JoAcademy-Tool.zip", "_blank"); };
   }
 
@@ -285,6 +295,8 @@
           downloadUrl: url,
           videoUrl: $("yt").value.trim(),
           tiktok: $("tt").value.trim(),
+          counterUrl: $("cnt").value.trim(),
+          showDownloads: $("showDl").checked,
           version: $("ver").value.trim(),
           updated: $("upd").value
         }, null, 2) + ";\n";

@@ -52,6 +52,12 @@
   .btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 14px 32px rgba(79,70,229,.4); }
   .btn svg { width: 20px; height: 20px; }
   .meta { color: var(--muted); font-size: .85rem; margin-top: 12px; }
+  .count-pill {
+    display: inline-flex; gap: 6px; align-items: center;
+    background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+    font-size: .85rem; font-weight: 600; padding: 5px 16px; border-radius: 999px; margin-top: 14px;
+  }
+  .count-pill b { color: var(--accent); font-weight: 800; }
 
   /* Sections */
   section { margin: 64px 0; }
@@ -137,7 +143,20 @@
       تحميل الأداة مجاناً
     </a>
     <p class="meta" id="ver">ملف ZIP واحد — التركيب مرة وحدة فقط</p>
+    <div class="count-pill" id="dlCountBox" hidden>عدد التحميلات: <b id="dlCount">…</b></div>
   </div>
+
+  <section>
+    <h2 class="sec-title">شرح بالفيديو</h2>
+    <p class="sec-sub">طريقة التنزيل والتركيب خطوة بخطوة</p>
+    <a id="videoLink" style="text-decoration:none">
+      <div class="video-box">
+        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
+        <b>فيديو شرح التنزيل والتركيب</b>
+        <span>قيد التجهيز — تابع الحساب للتحديث</span>
+      </div>
+    </a>
+  </section>
 
   <section>
     <h2 class="sec-title">شو بتعمل الأداة</h2>
@@ -183,18 +202,6 @@
     <div class="step"><span class="n">2</span><p>افتح كروم، وانسخ هذا الرابط والصقه في شريط العنوان: <code>chrome://extensions</code></p></div>
     <div class="step"><span class="n">3</span><p>فعّل زر <b>"وضع المطوّر"</b> أعلى اليمين — مرة وحدة بس وما بيتغير.</p></div>
     <div class="step"><span class="n">4</span><p>اضغط <b>"تحميل غير مُحزَّمة"</b> واختر المجلد اللي فككت ضغطه. خلاص، افتح كورسك وشغّلها.</p></div>
-  </section>
-
-  <section>
-    <h2 class="sec-title">شرح بالفيديو</h2>
-    <p class="sec-sub">طريقة التنزيل والتركيب خطوة بخطوة</p>
-    <a id="videoLink" style="text-decoration:none">
-      <div class="video-box">
-        <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
-        <b>فيديو شرح التنزيل والتركيب</b>
-        <span>قيد التجهيز — تابع الحساب للتحديث</span>
-      </div>
-    </a>
   </section>
 
   <section>
@@ -259,6 +266,39 @@
       tt.hidden = false;
       tt.innerHTML = 'للاستفسار: <a href="https://www.tiktok.com/@' + user +
         '" target="_blank" rel="noopener">تيك توك — @' + user + "</a>";
+    }
+
+    // عداد التحميلات التلقائي (Firebase Realtime Database)
+    var cUrl = c.counterUrl || "";
+    var box = document.getElementById("dlCountBox");
+    var numEl = document.getElementById("dlCount");
+    var fmt = function (n) { return Number(n).toLocaleString("en-US"); };
+    if (cUrl && c.showDownloads !== false) {
+      box.hidden = false;
+      fetch(cUrl + "/count.json")
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (n) { numEl.textContent = typeof n === "number" ? fmt(n) : "0"; })
+        .catch(function () {});
+
+      function bump(tries) {
+        if (tries <= 0) return;
+        fetch(cUrl + "/count.json", { headers: { "X-Firebase-ETag": "true" } })
+          .then(function (r) {
+            var etag = r.headers.get("ETag");
+            return r.json().then(function (n) {
+              var next = (typeof n === "number" ? n : 0) + 1;
+              var headers = { "Content-Type": "application/json" };
+              if (etag) headers["If-Match"] = etag;
+              return fetch(cUrl + "/count.json", { method: "PATCH", headers: headers, body: JSON.stringify(next) })
+                .then(function (p) {
+                  if (p.ok) numEl.textContent = fmt(next);
+                  else if (p.status === 412) bump(tries - 1);
+                });
+            });
+          })
+          .catch(function () { bump(tries - 1); });
+      }
+      a.addEventListener("click", function () { bump(3); });
     }
   })();
 </script>
