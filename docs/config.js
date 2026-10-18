@@ -1,6 +1,6 @@
 window.JOACADEMY_CONFIG = {
   "downloadUrl": "https://thezero520.github.io/joacademy-ext/JoAcademy-Tool.zip",
-  "videoUrl": "https://www.youtube.com/watch?v=hk2nV24Cfag&list=RDhk2nV24Cfag&start_radio=1",
+  "videoUrl": "https://www.youtube.com/live/2t9du8iy42E?si=opL2V4GOfQ7zzs9S",
   "tiktok": "test123",
   "counterUrl": "https://joacademy-counter-default-rtdb.firebaseio.com",
   "showDownloads": true,
