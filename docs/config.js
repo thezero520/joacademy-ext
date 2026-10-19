@@ -4,6 +4,6 @@ window.JOACADEMY_CONFIG = {
   "tiktok": "",
   "counterUrl": "https://joacademy-counter-default-rtdb.firebaseio.com",
   "showDownloads": true,
-  "version": "2.6",
-  "updated": "2026-10-18"
+  "version": "2.8",
+  "updated": "2026-10-19"
 };
